@@ -1,59 +1,94 @@
-# JobFeed
+# Jobs Feed Application
+This application displays a list of active jobs without duplicates and allows users to interact with job entries. When clicking on a job:
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.4.
+If the job is active, a details dialog will display.
+If the job is stopped, a toast notification will appear.
 
-## Development server
+## Installation and Running Instructions
+### 1. Installation
+Ensure you have latest Node.js and npm installed on your system (Project is in Angular 19). Then, run the following command in the project directory:
+*npm install*
 
-To start a local development server, run:
+### 2. Running the Application
+To start the app locally, run:
+*npm start* or *ng serve*
 
-```bash
-ng serve
-```
+### 3. Running Cypress Tests
+a. *npm run cy:open* To open Cypress in Interactive Mode
+b. *npm run cy:run* To run Cypress Tests in Headless Mode
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Architecture Overview
+This application is structured into three main folders for better scalability and maintainability and best of readability:
 
-## Code scaffolding
+## Folder Structure
+**CORE:** Contains core functionality specific to the app, such as interceptors and authentication services.
+**SHARED:** Houses reusable and common functionality such as utilities, guards, and shared services.
+**FEATURES:** Encapsulates components that define specific app features and their related modules, services, and templates.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Folder and File Descriptions
 
-```bash
-ng generate component component-name
-```
+### 1. Core
+**Interceptors:**
+*auth.interceptor.ts:* Handles authentication headers for requests.
+*global-error-handler.interceptor.ts:* Centralizes error handling for API calls.
+**Services:**
+*auth.service.ts:* Manages authentication logic (e.g., managing JWT tokens).
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 2. Shared
 
-```bash
-ng generate --help
-```
+**Enums:**
+*paginator.enum.ts:* Defines constants related to pagination behavior.
+*status.enum.ts:* Enumerates job statuses (e.g., active, inactive).
+**Guards:**
+*auth.guard.ts:* Protects routes by verifying authentication status.
+**Helpers:**
+*date-converter.helper.ts:* Provides utility functions for date formatting and conversions.
+**Services:**
+*global-loader.service.ts:* Manages a global loading spinner.
+*logging.service.ts:* Centralizes logging functionality.
+*navigation.service.ts:* Simplifies navigation across routes and is a common place for common functionality concerning navigation.
+*paginator.service.ts:* Handles pagination logic to keep the implementation simple and efficient.
+*session-storage.service.ts:* Wraps sessionStorage for easier storage management.
+*toast.service.ts:* Manages toast notifications for user feedback.
 
-## Building
+### 3. Features
 
-To build the project run:
+**Components:**
+*jobs/components/item-dialog.component:* Displays job details dialog for active jobs.
+*jobs/components/jobs-list.component:* Renders a list of active jobs without duplicates.
 
-```bash
-ng build
-```
+**Models:**
+*jobs.model.ts:* Defines the structure for job-related data.
+*feed-entry-details.model.ts:* Defines data structure for job feed entry details.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+**Services:**
+*jobs.service.ts:* Handles API calls related to job data.
 
-## Running unit tests
+**Routes:**
+*jobs.routes.ts:* Configures lazy loading for job-related routes.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Key Features and Decisions
 
-```bash
-ng test
-```
+### Lazy Loading:
+Used lazy loading for components to enhance performance, especially with a real backend.
 
-## Running end-to-end tests
+### @defer for Large Components:
+Used Angular's @defer to lazily load large components within templates.
 
-For end-to-end (e2e) testing, run:
+### Optimized Images:
+Leveraged ngSrc with NgOptimizedImage to ensure efficient image handling and performance.
 
-```bash
-ng e2e
-```
+### Pagination:
+Implemented a PaginatorService to manage pagination simply and effectively. For more complex state sharing in the future, NgRx may be considered.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Proxy for CORS:
+A proxy was used to bypass CORS issues during development, which won't be needed with a real backend.
 
-## Additional Resources
+### JWT Token:
+Stored a dummy JWT token in sessionStorage, simulating real backend authentication.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Change Detection:
+Utilized ChangeDetectionStrategy.OnPush to minimize unnecessary change detection cycles, improving performance.
+
+### Signals:
+Used Angular Signals where appropriate to enhance performance and simplify reactivity.
