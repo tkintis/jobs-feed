@@ -64,13 +64,22 @@ export class JobsListComponent implements OnInit {
         this.isTableLoading.set(false);
         this.cd.detectChanges();
       }))
-      .subscribe(res => {
-        if (this.goToPage !== GoToPageEnum.previous)
-          this.paginatorService.setCurrentUrl(res.feed_url);
+      .subscribe({
+        next: (res) => {
+          if (this.goToPage !== GoToPageEnum.previous)
+            this.paginatorService.setCurrentUrl(res.feed_url);
 
-        this.paginatorService.setNextUrl(res.next_url);
+          this.paginatorService.setNextUrl(res.next_url);
 
-        this.items.set(this.getFilteredActiveUniqueItems(res.items));
+          this.items.set(this.getFilteredActiveUniqueItems(res.items));
+        },
+        error: () => {
+          // revert goToPage status in case of error
+          if (this.goToPage === GoToPageEnum.last)
+            this.goToPage = GoToPageEnum.first;
+          else if(this.goToPage === GoToPageEnum.first)
+            this.goToPage = GoToPageEnum.last;
+        }
       });
   }
 

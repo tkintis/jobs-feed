@@ -1,6 +1,6 @@
 <router-outlet />
 
-<p-toast position="bottom-right" key="br" />
+<p-toast position="bottom-right" key="br" [breakpoints]="{ '425px': { width: '100%', right: '0', left: '0' } }" />
 
 @if (globalLoaderService.isGlobalLoaderVisible$ | async) {
   <div class="bg-white z-50 opacity-70 absolute top-0 left-0 right-0 bottom-0">

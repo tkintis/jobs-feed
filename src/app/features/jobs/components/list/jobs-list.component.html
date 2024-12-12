@@ -9,6 +9,7 @@
     [scrollHeight]="'flex'"
     [tableStyle]="{ 'min-width': '50rem' }"
     [loading]="isTableLoading()"
+    [responsive]="true"
     [globalFilterFields]="['title', '_feed_entry.businessName', '_feed_entry.municipal']"
   >
     <ng-template pTemplate="caption">
@@ -21,7 +22,7 @@
           <input
             id="search"
             pInputText
-            [style]="{ width: '280px' }"
+            class="w-[200px] sm:w-[280px]"
             (input)="table.filterGlobal($any($event.target).value, 'contains')"
             placeholder="Search title, company or location"
           />
@@ -30,11 +31,11 @@
     </ng-template>
     <ng-template #header>
       <tr>
-        <th pSortableColumn="title">Title <p-sortIcon field="title" /></th>
-        <th pSortableColumn="_feed_entry.businessName">Company name <p-sortIcon field="_feed_entry.businessName" /></th>
-        <th pSortableColumn="_feed_entry.municipal">Location <p-sortIcon field="_feed_entry.municipal" /></th>
-        <th>Short Description</th>
-        <th pSortableColumn="date_modified">Date Modified <p-sortIcon field="date_modified" /></th>
+        <th class="min-w-[320px]" pSortableColumn="title">Title <p-sortIcon field="title" /></th>
+        <th class="min-w-[320px]" pSortableColumn="_feed_entry.businessName">Company name <p-sortIcon field="_feed_entry.businessName" /></th>
+        <th class="min-w-[160px]" pSortableColumn="_feed_entry.municipal">Location <p-sortIcon field="_feed_entry.municipal" /></th>
+        <th class="min-w-[160px]">Short Description</th>
+        <th class="min-w-[160px]" pSortableColumn="date_modified">Date Modified <p-sortIcon field="date_modified" /></th>
       </tr>
     </ng-template>
     <ng-template #body let-item>

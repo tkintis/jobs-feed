@@ -93,6 +93,18 @@ This application is structured into three main folders for better scalability an
 
 ## Key Features and Decisions
 
+### Framework: 
+
+The application is implemented using Angular 19 to leverage its robust framework and high-performance capabilities.
+
+### UI Library: 
+
+PrimeNG is used for pre-built UI components, such as dialog boxes and data tables, ensuring a consistent and professional design.
+
+### Styling: 
+
+TailwindCSS is integrated for utility-first styling, allowing for rapid and responsive UI development.
+
 ### Lazy Loading:
 
 Used lazy loading for components to enhance performance, especially with a real backend.

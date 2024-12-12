@@ -42,11 +42,20 @@
             @for (contact of data().contactList; track $index) {
               <li>
                 <div>
-                  <span class="font-medium text-gray-800 dark:text-gray-400">{{ contact.name }}</span> - <span class="text-gray-600 dark:text-gray-200">{{ contact.title }}</span>
+                  <span class="font-medium text-gray-800 dark:text-gray-400">{{ contact.name }}</span> -
+                  <span class="text-gray-600 dark:text-gray-200">{{ contact.title }}</span>
                 </div>
                 <div>
-                  <a href="mailto:{{ contact.email }}" class="text-blue-500 underline">{{ contact.email }}</a>
-                  <a href="tel:{{ contact.phone }}" class="ml-2 text-blue-500 underline">{{ contact.phone }}</a>
+                  @if (contact.email) {
+                    <div class="flex items-center">
+                      <i class="pi pi-envelope mr-3"></i><a href="mailto:{{ contact.email }}" class="text-blue-500 underline">{{ contact.email }}</a>
+                    </div>
+                  }
+                  @if (contact.phone) {
+                    <div class="flex items-center">
+                      <i class="pi pi-phone mr-3"></i><a href="tel:{{ contact.phone }}" class="text-blue-500 underline">{{ contact.phone }}</a>
+                    </div>
+                  }
                 </div>
               </li>
             }
@@ -73,8 +82,8 @@
           <li><strong>Extent:</strong> {{ data().extent }}</li>
           <li><strong>Sector:</strong> {{ data().sector }}</li>
           <li><strong>Position Count:</strong> {{ data().positioncount }}</li>
-          <li><strong>Published:</strong> {{ data().published | date: 'dd/MM/YYY' }}</li>
-          <li><strong>Expires:</strong> {{ data().expires | date: 'dd/MM/YYY' }}</li>
+          <li><strong>Published:</strong> {{ data().published | date: "dd/MM/YYY" }}</li>
+          <li><strong>Expires:</strong> {{ data().expires | date: "dd/MM/YYY  HH:mm:ss" }}</li>
         </ul>
       </div>
 
