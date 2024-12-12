@@ -1,0 +1,91 @@
+<p-dialog
+  header="Job Details"
+  [modal]="true"
+  [(visible)]="isDialogVisible"
+  [style]="{ width: '70vw' }"
+  [breakpoints]="{ '1199px': '85vw', '575px': '95vw' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <div class="p-2">
+    <h2 class="text-xl font-bold text-gray-800 dark:text-gray-400">{{ data().jobtitle }}</h2>
+    <p class="text-gray-600 dark:text-gray-200">
+      {{ data().employer.name }}
+    </p>
+    <div class="space-y-4">
+      <!-- Description -->
+      <div>
+        <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Description:</h3>
+        <p class="text-gray-600 dark:text-gray-200" [innerHTML]="data().description"></p>
+      </div>
+
+      <!-- Work Locations -->
+      @if (data().workLocations.length > 0) {
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Work Locations:</h3>
+          <ul class="list-disc pl-5 text-gray-600 dark:text-gray-200">
+            @for (location of data().workLocations; track $index) {
+              <li>
+                <span>{{ location.address }}, {{ location.city }}, {{ location.postalCode }}</span>
+                <span>({{ location.country }})</span>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      <!-- Contact List -->
+      @if (data().contactList.length > 0) {
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Contact:</h3>
+          <ul class="space-y-2">
+            @for (contact of data().contactList; track $index) {
+              <li>
+                <div>
+                  <span class="font-medium text-gray-800 dark:text-gray-400">{{ contact.name }}</span> - <span class="text-gray-600 dark:text-gray-200">{{ contact.title }}</span>
+                </div>
+                <div>
+                  <a href="mailto:{{ contact.email }}" class="text-blue-500 underline">{{ contact.email }}</a>
+                  <a href="tel:{{ contact.phone }}" class="ml-2 text-blue-500 underline">{{ contact.phone }}</a>
+                </div>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      <!-- Employer -->
+      @if (data().employer) {
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Employer:</h3>
+          <p class="text-gray-600 dark:text-gray-200" [innerHTML]="data().employer.description"></p>
+          @if (data().employer.homepage) {
+            <a href="{{ data().employer.homepage }}" class="text-blue-500 underline" target="_blank">Visit Homepage</a>
+          }
+        </div>
+      }
+
+      <!-- Additional Info -->
+      <div>
+        <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Additional Information:</h3>
+        <ul class="space-y-2">
+          <li><strong>Engagement Type:</strong> {{ data().engagementtype }}</li>
+          <li><strong>Extent:</strong> {{ data().extent }}</li>
+          <li><strong>Sector:</strong> {{ data().sector }}</li>
+          <li><strong>Position Count:</strong> {{ data().positioncount }}</li>
+          <li><strong>Published:</strong> {{ data().published | date: 'dd/MM/YYY' }}</li>
+          <li><strong>Expires:</strong> {{ data().expires | date: 'dd/MM/YYY' }}</li>
+        </ul>
+      </div>
+
+      <!-- Application Link -->
+      @if (data().applicationUrl) {
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">
+            Application Link: <a href="{{ data().applicationUrl }}" target="_blank" class="text-blue-500 text-md underline">Apply Here</a>
+          </h3>
+        </div>
+      }
+    </div>
+  </div>
+</p-dialog>

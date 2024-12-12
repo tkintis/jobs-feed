@@ -1,12 +1,22 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AuthService } from './core/services/auth.service';
+import { ToastModule } from 'primeng/toast';
+import { ProgressSpinner } from 'primeng/progressspinner';
+import { AsyncPipe } from '@angular/common';
+import { GlobalLoaderService } from './shared/services/global-loader.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ToastModule, ProgressSpinner, AsyncPipe],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-  title = 'JobFeed';
+  globalLoaderService = inject(GlobalLoaderService);
+  private authService = inject(AuthService);
+
+  constructor() {
+    this.authService.setDummyToken(); // TODO: dummy code. remove this line when login Page.
+  }
 }

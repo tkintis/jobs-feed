@@ -1,0 +1,93 @@
+<div class="h-full">
+  <p-table
+    #table
+    id="table"
+    class="block h-[calc(100vh-70px)]"
+    [value]="items()"
+    [dataKey]="'id'"
+    [scrollable]="true"
+    [scrollHeight]="'flex'"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [loading]="isTableLoading()"
+    [globalFilterFields]="['title', '_feed_entry.businessName', '_feed_entry.municipal']"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <img id="logo" alt="logo" ngSrc="/logo-feed.svg" width="70" height="42" />
+        <p-iconfield iconPosition="left" class="ml-auto">
+          <p-inputicon>
+            <i class="pi pi-search"></i>
+          </p-inputicon>
+          <input
+            id="search"
+            pInputText
+            [style]="{ width: '280px' }"
+            (input)="table.filterGlobal($any($event.target).value, 'contains')"
+            placeholder="Search title, company or location"
+          />
+        </p-iconfield>
+      </div>
+    </ng-template>
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn="title">Title <p-sortIcon field="title" /></th>
+        <th pSortableColumn="_feed_entry.businessName">Company name <p-sortIcon field="_feed_entry.businessName" /></th>
+        <th pSortableColumn="_feed_entry.municipal">Location <p-sortIcon field="_feed_entry.municipal" /></th>
+        <th>Short Description</th>
+        <th pSortableColumn="date_modified">Date Modified <p-sortIcon field="date_modified" /></th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-item>
+      <tr class="table-row cursor-pointer" (click)="rowClicked(item)">
+        <td>{{ item.title }}</td>
+        <td>{{ item._feed_entry.businessName }}</td>
+        <td>{{ item._feed_entry.municipal }}</td>
+        <td>{{ item.content_text }}</td>
+        <td>{{ item.date_modified | date: "dd/MM/YYYY" }}</td>
+      </tr>
+    </ng-template>
+    <ng-template #loadingbody>
+      <div class="h-full"></div>
+    </ng-template>
+  </p-table>
+  <div class="flex sticky bottom-0 justify-center w-full py-4">
+    <p-button
+      id="pagination-btn-first"
+      class="mx-3 cursor-pointer"
+      severity="info"
+      [icon]="'pi pi-angle-double-left'"
+      (click)="paginationChanged(goToPageEnum.first)"
+      [disabled]="goToPage === goToPageEnum.first || paginatorService.isOnFirstPage() || isTableLoading()"
+    ></p-button>
+    <p-button
+      id="pagination-btn-previous"
+      class="mx-3 cursor-pointer"
+      severity="info"
+      [icon]="'pi pi-angle-left'"
+      (click)="paginationChanged(goToPageEnum.previous)"
+      [disabled]="goToPage === goToPageEnum.first || paginatorService.isOnFirstPage() || isTableLoading()"
+    ></p-button>
+    <p-button
+      id="pagination-btn-next"
+      class="mx-3 cursor-pointer"
+      severity="info"
+      [icon]="'pi pi-angle-right'"
+      (click)="paginationChanged(goToPageEnum.next)"
+      [disabled]="goToPage === goToPageEnum.last || isTableLoading()"
+    />
+    <p-button
+      id="pagination-btn-last"
+      class="mx-3 cursor-pointer"
+      severity="info"
+      [icon]="'pi pi-angle-double-right'"
+      (click)="paginationChanged(goToPageEnum.last)"
+      [disabled]="goToPage === goToPageEnum.last || isTableLoading()"
+    />
+  </div>
+</div>
+
+@defer {
+  @if (showAdContentDialog()) {
+    <app-job-item-dialog [data]="adContent" [isVisible]="showAdContentDialog()"></app-job-item-dialog>
+  }
+}
