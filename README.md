@@ -15,9 +15,7 @@ Then, run the following command in the project directory: *npm install*
 To start the app locally, run: *npm start* or *ng serve*
 
 ### 3. Running Cypress Tests
-a. *npm run cy:open* To open Cypress in Interactive Mode
-
-b. *npm run cy:run* To run Cypress Tests in Headless Mode
+*npm run cy:open* To open Cypress in Interactive Mode
 
 ## Architecture Overview
 This application is structured into three main folders for better scalability and maintainability and best of readability:
